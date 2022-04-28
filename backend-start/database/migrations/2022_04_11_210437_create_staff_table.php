@@ -13,19 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->integer('bilkent_id')->unique();
+        Schema::create('staff', function (Blueprint $table) {
+            $table->integer('id')->unique();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->integer('phone')->unique();
+            $table->string('email');
             $table->string('password');
+            $table->string('job');
+            $table->string('speciality')->nullable();
             $table->string('hescode')->defult('0000');
-            $table->date('birthday');
-            $table->double('height');
-            $table->double('weight');
-            $table->string('blood_type');
-            $table->string('pp_path');
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('staff');
     }
 };
