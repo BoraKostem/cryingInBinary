@@ -95,8 +95,13 @@
         <div class="col-md-3">
             <div class="profile-sidebar" id="sidebar">
                 <div class="profile-userpic">
-					<img src="{{URL::asset('/image/Profile-720.png')}}" class="img-responsive" alt="">
-				</div>
+                  <!--//Control for profile picture path -->
+                  @if(!isset($userInfo['pp_path']))
+                    <img src="{{URL::asset('/image/Profile-720.png')}}" class="img-responsive" alt="">
+                  @else
+                    <img src="{{URL::asset('')}}" class="img-responsive" alt="">
+                  @endif      
+				        </div>
 
                 <div class="profile-usertitle">
 					<div class="profile-usertitle-name">
@@ -112,9 +117,9 @@
 				</div>
                 <div class="information-texts">
                   @if(isset($userInfo['hescode']))
-                    COVID-19 Status: Healthy
+                  COVID-19 Status: <p class="text-success" style="display:inline">Healthy!</p>
                   @else
-                  COVID-19 Status: HES Code Not Found!
+                  COVID-19 Status: <p class="text-secondary" style="display:inline">Not Found</p> 
                   @endif
                 </div>
 
