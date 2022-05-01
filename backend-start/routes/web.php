@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserAuth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,13 +14,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('login');
+//});
+
+//General Logout
+Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout');
+
+//User Login
+
+Route::post('user',[UserAuth::class,'userLogin']);
+
+
+
+Route::group(['middleware'=>['authCheck']], function(){
+    Route::get('login',[UserAuth::class,'login'])->name('auth.login');
+    
+    Route::get('dashboard',[UserAuth::class,'dashboard']); //Dashboard of the patient
+
+
 });
 
+//Health Center Login
 
-//Route::get('/', [MainController::class, 'index']);
-//Route::get('/index', [MainController::class, 'mainMenu']);
 
-//Route::post('/login',[MainController::class, 'login']);
-//Route::resource('', 'App\Http\Controllers\MainController');
+
+
+//Admin Login
+
+
+
+
+
+//Admin Spesific Functions
+Route::get('register',[UserAuth::class, 'register'])->name('auth.register');  //Route will change
+Route::post('registerUser',[UserAuth::class,'createUser']);
+
+
+//Dont forget to delete createAdmin files
+Route::get('admincreate',[UserAuth::class,'goAdmin'])->name('auth.admin');
+Route::post('adminC',[UserAuth::class,'createAdmin']);
