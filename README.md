@@ -2,8 +2,6 @@
 <h2>Contributors:</h2>
 Alper Kandemir(Backend)<br>
 Bora Fenari Köstem(Backend)<br>
-Kylian Djermoune(Frontend)<br>
-Nafissa El Moussaoui(Frontend)<br>
 Oğulcan Karakollukçu(Backend)<br>
 
 
