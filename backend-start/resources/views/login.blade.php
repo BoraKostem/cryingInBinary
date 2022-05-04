@@ -16,7 +16,7 @@
 
     <div class="container-fluid">
         <div class="row vh-100 ">
-            <div class="col-md-2 d-md-flex align-items-center  " style="border:1px solid #aeaeae;">
+            <div class="col-md-2 d-md-flex align-items-center justify-content-center " style="border:2px solid #aeaeae;">
                 @include('logincomponents.loginform')
             </div>
             <div class="col-md-10 d-md-flex align-items-center  ">

@@ -30,8 +30,8 @@
            @csrf
                <div class="form-group">
                  <label>Admin ID</label>
-                 <input type="text" class="form-control" name="adminID" placeholder="Enter adminID">
-                 <span class="text-danger">@error('adminID'){{ $message }} @enderror</span>
+                 <input type="text" class="form-control" name="bilkentID" placeholder="Enter Bilkent ID">
+                 <span class="text-danger">@error('bilkentID'){{ $message }} @enderror</span>
               </div>
               <div class="form-group">
                  <label>Password</label>

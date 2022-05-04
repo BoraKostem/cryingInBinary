@@ -4,11 +4,7 @@
     }
 
     #sidebar {
-    width: 245px;
-    position: fixed;
-    top: 150;
     left: 0;
-    height: 150vh;
     z-index: 100;
     background: #ebebeb;
     color: #fff;
@@ -20,14 +16,10 @@
     color: #fff;
 }
 
-/* Profile container */
-.profile {
-  margin: 0px 0;
-}
 
 /* Profile sidebar */
 .profile-sidebar {
-  padding: 20px 0 10px 0;
+  padding: 20px 0 0 0;
   background: #ebebeb;
 }
 
@@ -90,10 +82,8 @@
 </style>
 
 
-<div class="container">
-    <div class="row profile">
-        <div class="col-md-3">
-            <div class="profile-sidebar" id="sidebar">
+<div class="row">
+            <div class="profile-sidebar" id="sidebar"  style="border:2px solid #aeaeae;">
                 <div class="profile-userpic">
                   <!--//Control for profile picture path -->
                   @if(!isset($userInfo['pp_path']))
@@ -104,49 +94,58 @@
 				        </div>
 
                 <div class="profile-usertitle">
-					<div class="profile-usertitle-name">
-						{{$userInfo['name']}}
-					</div>
-					<div class="profile-usertitle-job">
-						{{$userInfo['bilkentID']}}
-					</div>
-				</div>
+                    <div class="profile-usertitle-name">
+                      @if($userInfo['job'] != 'administrator')
+                        {{$userInfo['name']}}
+                      @else
+                        <strong>ADMIN</strong>
+                      @endif
 
-                <div class="profile-userbuttons">
-					<button type="button" class="btn btn-custom btn-sm">Profile</button>
-				</div>
-                <div class="information-texts">
-                  @if(isset($userInfo['hescode']))
-                  COVID-19 Status: <p class="text-success" style="display:inline">Healthy!</p>
-                  @else
-                  COVID-19 Status: <p class="text-secondary" style="display:inline">Not Found</p> 
-                  @endif
-                </div>
+                    </div>
+                    <div class="profile-usertitle-job">
+                      {{$userInfo['bilkentID']}}
+                    </div>
+				        </div>
 
-                <div class="information-texts">
-                  @if(isset($userInfo['birthday']))
-                  Age: 21
-                  @else
-                  Age: -
-                  @endif
-                </div>
+                @if($userInfo['job'] != 'administrator')
+                  <div class="profile-userbuttons">
+                      <button type="button" class="btn btn-custom btn-sm">Profile</button>
+                  </div>
+                @endif
 
-                <div class="information-texts">
-                  @if(isset($userInfo['height']))
-                  Height: 1.78
-                  @else
-                  Height: -
-                  @endif
-                </div>
+                @if($userInfo['job'] != 'administrator')
+                    <div class="information-texts">
+                      @if(isset($userInfo['hescode']))
+                      COVID-19 Status: <p class="text-success" style="display:inline">Healthy!</p>
+                      @else
+                      COVID-19 Status: <p class="text-secondary" style="display:inline">Not Found</p> 
+                      @endif
+                    </div>
+                    @if($userInfo['job'] == 'bilkenter')
+                        <div class="information-texts mt-2">
+                          @if(isset($userInfo['birthday']))
+                          Age: --Add Age Later--
+                          @else
+                          Age: -
+                          @endif
+                        </div>
 
-                <div class="information-texts">
-                  @if(isset($userInfo['weight']))
-                  Weight: 90
-                  @else
-                  Weight: -
-                  @endif
-                </div>
+                        <div class="information-texts mt-2">
+                          @if(isset($userInfo['height']))
+                          Height: {{$userInfo['height']}}
+                          @else
+                          Height: -
+                          @endif
+                        </div>
+
+                        <div class="information-texts mt-2 mb-4">
+                          @if(isset($userInfo['weight']))
+                          Weight: {{$userInfo['weight']}}
+                          @else
+                          Weight: -
+                          @endif
+                        </div>
+                    @endif
+                @endif
             </div>
-        </div>
-    </div>
 </div>

@@ -28,6 +28,5 @@
                 <span class="text-danger">@error('password'){{ $message }} @enderror</span>
             </div>
             <button type="submit" class="btn btn-custom btn-sm mt-3 mb-2 me-3">Login</button>
-            <a class="pt-3" href="" style="display:inline">Forgot Password?</a>
         </form>
 </div>

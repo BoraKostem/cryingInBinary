@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserAuth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,7 @@ Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout');
 //User Login
 
 Route::post('user',[UserAuth::class,'userLogin']);
-
+Route::post('chngnws',[MainController::class,'changeNews']);
 
 
 Route::group(['middleware'=>['authCheck']], function(){
