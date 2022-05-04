@@ -26,7 +26,7 @@
    <div class="row" style="margin-top:45px">
       <div class="col-md-4 col-md-offset-4">
            <h4>Edit Profile</h4><hr>
-           <form action="{{route('edtPrflInf')}}" method="post">
+           <form action="{{route('edtPrflInf')}}" method="post" enctype="multipart/form-data">
 
            @if(Session::get('success'))
              <div class="alert alert-success">

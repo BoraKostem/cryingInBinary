@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarsExample06">
         <ul class="navbar-nav ms-auto mb-2 mb-xl-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="dashboard">Home</a>
+            <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Appointments</a>
@@ -35,12 +35,14 @@
           <li class="nav-item dropdown">
             <a class="nav-link" href="#">Health History</a></li>
           </li>
+          @if($userInfo['job'] != 'administrator')
           <li class="nav-item">
-            <a class="nav-link me-2" href="#">Settings</a>
+            <a class="nav-link me-2" href="{{route('user.profile.edit')}}">Settings</a>
           </li>
+          @endif
         </ul>
         
-        <button class="btn btn-primary" type="submit" onclick="window.location='{{ url("auth/logout") }}'">Logout</button>
+        <button class="btn btn-primary ms-2" type="submit" onclick="window.location='{{ url("auth/logout") }}'">Logout</button>
       </div>
     </div>
   </nav>

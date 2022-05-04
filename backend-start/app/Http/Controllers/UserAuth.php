@@ -22,7 +22,7 @@ class UserAuth extends Controller
             return view('createuser',compact('userInfo'));
         }
         else{
-            return redirect('dashboard');
+            return redirect(route('home'));
         }
     }
 
@@ -73,7 +73,7 @@ class UserAuth extends Controller
         }
 
         if(session('userJob') == 'administrator'){
-            return redirect('dashboard');
+            return redirect(route('home'));
         }
     }
 
@@ -97,7 +97,7 @@ class UserAuth extends Controller
         }
 
         if(session('userJob') == 'administrator'){
-            return redirect('dashboard');
+            return redirect(route('home'));
         }
     }
 

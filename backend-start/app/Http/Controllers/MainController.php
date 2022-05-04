@@ -6,6 +6,7 @@ use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class MainController extends Controller{
     
@@ -32,6 +33,7 @@ class MainController extends Controller{
             'weight'=>'required|integer',
             'hescode'=>'required',
             'phone'=>'required|required',
+            'profilephoto'=>'image|max:10000',
         ]);
         $succ = false;
         $user = Patient::where('id','=', session('userID'));    
@@ -54,6 +56,15 @@ class MainController extends Controller{
             $succ = $user->update(['blood_type' => $req->blood_type]);
         }
         
+        $file = $req->profilephoto;
+        if(isset($file)){ 
+            if(isset($userr->pp_path)){
+                File::delete(public_path("users/$userr->bilkentID/$userr->pp_path"));
+            }
+            $fileName = time().'.'.$req->profilephoto->extension();
+            $file->move(public_path("users/$userr->bilkentID"), $fileName);
+            $succ = $user->update(['pp_path' => $fileName]);
+        }
         if($succ){
             return back()->with('success','Profile editted successfully');
         }
@@ -61,4 +72,5 @@ class MainController extends Controller{
             return back()->with('fail','You need to change a value to update.');
         }
     }
+
 }

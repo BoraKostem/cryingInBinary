@@ -30,9 +30,7 @@
   margin-left: auto;
   margin-right: auto;
   display: block;
-  -webkit-border-radius: 50% !important;
-  -moz-border-radius: 50% !important;
-  border-radius: 50% !important;
+  border-radius: 10%;
 }
 
 .profile-usertitle {
@@ -89,7 +87,7 @@
                   @if(!isset($userInfo['pp_path']))
                     <img src="{{URL::asset('/image/Profile-720.png')}}" class="img-responsive" alt="">
                   @else
-                    <img src="{{URL::asset('')}}" class="img-responsive" alt="">
+                    <img src="{{URL::asset("users/$userInfo->bilkentID/$userInfo->pp_path")}}" class="img-responsive" alt="">
                   @endif      
 				        </div>
 

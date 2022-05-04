@@ -36,7 +36,7 @@ Route::group(['middleware'=>['authCheck']], function(){
     Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout'); //Logout
 
     //Pages
-    Route::get('dashboard',[UserAuth::class,'dashboard']); //Dashboard of the users
+    Route::get('dashboard',[UserAuth::class,'dashboard'])->name('home'); //Dashboard of the users
     Route::get('profile',[UserAuth::class,'profilePage'])->name('user.profile'); //Profile page for users except admin
     Route::get('profile/edit',[UserAuth::class,'profileEdit'])->name('user.profile.edit');
     Route::post('edtPrfl', [MainController::class,'editProfile'])->name('edtPrflInf');//Post method for edditing profile
