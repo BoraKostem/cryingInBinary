@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('password');
+            $table->string('gender');
             $table->string('hescode')->nullable()->defult('0000');
             $table->date('birthday')->nullable();
             $table->double('height')->nullable();

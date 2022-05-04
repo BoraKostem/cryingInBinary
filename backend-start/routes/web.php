@@ -20,20 +20,32 @@ use Illuminate\Support\Facades\Route;
 //});
 
 //General Logout
-Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout');
 
-//User Login
+
+//Login
 
 Route::post('user',[UserAuth::class,'userLogin']);
-Route::post('chngnws',[MainController::class,'changeNews']);
+
 
 
 Route::group(['middleware'=>['authCheck']], function(){
     Route::get('login',[UserAuth::class,'login'])->name('auth.login');
     
-    Route::get('dashboard',[UserAuth::class,'dashboard']); //Dashboard of the patient
+    
+    
+    Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout'); //Logout
 
+    //Pages
+    Route::get('dashboard',[UserAuth::class,'dashboard']); //Dashboard of the users
+    Route::get('profile',[UserAuth::class,'profilePage'])->name('user.profile'); //Profile page for users except admin
+    Route::get('profile/edit',[UserAuth::class,'profileEdit'])->name('user.profile.edit');
+    Route::post('edtPrfl', [MainController::class,'editProfile'])->name('edtPrflInf');//Post method for edditing profile
 
+    //Admin Spesific Functions
+
+    Route::get('register',[UserAuth::class, 'register'])->name('auth.register');  //Route will change
+    Route::post('registerUser',[UserAuth::class,'createUser']);
+    Route::post('chngnws',[MainController::class,'changeNews']); //Admin Change News   -- todo protect for admin
 });
 
 //Health Center Login
@@ -48,8 +60,7 @@ Route::group(['middleware'=>['authCheck']], function(){
 
 
 //Admin Spesific Functions
-Route::get('register',[UserAuth::class, 'register'])->name('auth.register');  //Route will change
-Route::post('registerUser',[UserAuth::class,'createUser']);
+
 
 
 //Dont forget to delete createAdmin files

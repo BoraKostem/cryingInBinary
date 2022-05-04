@@ -109,7 +109,11 @@
 
                 @if($userInfo['job'] != 'administrator')
                   <div class="profile-userbuttons">
-                      <button type="button" class="btn btn-custom btn-sm">Profile</button>
+                    @if(!Request::is('profile'))
+                      <button type="button" class="btn btn-custom btn-sm" onclick="window.location='{{ route('user.profile') }}'">Profile</button>
+                    @else
+                    <button type="button" class="btn btn-custom btn-sm" onclick="window.location='{{ route('user.profile.edit') }}'">Edit Profile</button>
+                    @endif
                   </div>
                 @endif
 
@@ -121,30 +125,32 @@
                       COVID-19 Status: <p class="text-secondary" style="display:inline">Not Found</p> 
                       @endif
                     </div>
-                    @if($userInfo['job'] == 'bilkenter')
-                        <div class="information-texts mt-2">
-                          @if(isset($userInfo['birthday']))
-                          Age: --Add Age Later--
-                          @else
-                          Age: -
-                          @endif
-                        </div>
+                    @if(!Request::is('profile'))
+                      @if($userInfo['job'] == 'bilkenter')
+                          <div class="information-texts mt-2">
+                            @if(isset($userInfo['birthday']))
+                            Age:  {{\Carbon\Carbon::parse($userInfo['birthday'])->age }}
+                            @else
+                            Age: -
+                            @endif
+                          </div>
 
-                        <div class="information-texts mt-2">
-                          @if(isset($userInfo['height']))
-                          Height: {{$userInfo['height']}}
-                          @else
-                          Height: -
-                          @endif
-                        </div>
+                          <div class="information-texts mt-2">
+                            @if(isset($userInfo['height']))
+                            Height: {{$userInfo['height']}} meter
+                            @else
+                            Height: -
+                            @endif
+                          </div>
 
-                        <div class="information-texts mt-2 mb-4">
-                          @if(isset($userInfo['weight']))
-                          Weight: {{$userInfo['weight']}}
-                          @else
-                          Weight: -
-                          @endif
-                        </div>
+                          <div class="information-texts mt-2 mb-4">
+                            @if(isset($userInfo['weight']))
+                            Weight: {{$userInfo['weight']}} kg
+                            @else
+                            Weight: -
+                            @endif
+                          </div>
+                      @endif
                     @endif
                 @endif
             </div>

@@ -1,18 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <title>{{config('app.name', 'LSAPP')}}</title>
-</head>
-<body>
+@extends('layouts.app',['userInfo' => $userInfo])
+
+@section('style')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+<script type="text/javascript"> //To select Date
+   $(function() {
+     $( "#datepicker" ).datepicker({
+      format: "mm/dd/yy",
+      autoclose: true,
+      todayHighlight: true, 
+     });
+   });
+</script>
+@endsection
+
+@section('content')
+
+
+
 
 <div class="container">
    <div class="row" style="margin-top:45px">
       <div class="col-md-4 col-md-offset-4">
-           <h4>Register | Custom Auth</h4><hr>
+           <h4>Register Patient</h4><hr>
            <form action="registerUser" method="post">
 
            @if(Session::get('success'))
@@ -39,14 +52,30 @@
                  <span class="text-danger">@error('name'){{ $message }} @enderror</span>
               </div>
               <div class="form-group">
+                  <label>Gender</label>
+                  <select class="form-control" name="gender">
+                     <option selected>Please Select A Gender</option>
+                     <option value="Male">Male</option>
+                     <option value="Female">Female</option>
+                   </select>
+                  <span class="text-danger">@error('gender'){{ $message }} @enderror</span>
+              </div>
+              <div class="form-group">
                  <label>Email</label>
                  <input type="text" class="form-control" name="email" placeholder="Enter email address">
                  <span class="text-danger">@error('email'){{ $message }} @enderror</span>
               </div>
               <div class="form-group">
-                <label>Phome Number</label>
+                <label>Phone Number</label>
                 <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number">
                 <span class="text-danger">@error('phone'){{ $message }} @enderror</span>
+             </div>
+             <div class="form-group">
+               <label>Birthday</label>
+               <div class="input-group">
+                  <input type="text" class="form-control" id="datepicker" name="date" placeholder="Enter Birthday"/>
+               </div>
+               <span class="text-danger">@error('date'){{ $message }} @enderror</span>
              </div>
               <div class="form-group">
                  <label>Password</label>
@@ -54,11 +83,12 @@
                  <span class="text-danger">@error('password'){{ $message }} @enderror</span>
               </div>
 
-              <button type="submit" class="btn btn-block btn-primary">Sign Up</button>
+              <button type="submit" class="btn btn-block btn-primary mt-2">Create User</button>
            </form>
       </div>
    </div>
 </div>
-    
-</body>
-</html>
+
+
+
+@endsection

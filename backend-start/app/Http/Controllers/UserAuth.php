@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\Staff;
 use App\Models\Admin;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Hash;
 
 class UserAuth extends Controller
@@ -15,7 +17,13 @@ class UserAuth extends Controller
     }
 
     function register(){
-        return view('createuser');
+        if(session('userJob') == 'administrator'){
+            $userInfo = Admin::where('id','=', session('userID'))->first();
+            return view('createuser',compact('userInfo'));
+        }
+        else{
+            return redirect('dashboard');
+        }
     }
 
     function goAdmin(){
@@ -42,6 +50,54 @@ class UserAuth extends Controller
         if(session('userJob') == 'secretary'){
             $userInfo = Staff::where('id','=', session('userID'))->first();
             return view('roleMenus.secretary',compact('userInfo'));
+        }
+    }
+
+    function profilePage(){
+        
+        if(session('userJob') == 'bilkenter'){
+            $userInfo = Patient::where('id','=', session('userID'))->first();
+            return view('utilityPages.profilePage',compact('userInfo'));
+        }
+        if(session('userJob') == 'doctor'){
+            $userInfo = Staff::where('id','=', session('userID'))->first();
+            return view('utilityPages.profilePage',compact('userInfo'));
+        }
+        if(session('userJob') == 'nurse'){
+            $userInfo = Staff::where('id','=', session('userID'))->first();
+            return view('utilityPages.profilePage',compact('userInfo'));
+        }
+        if(session('userJob') == 'secretary'){
+            $userInfo = Staff::where('id','=', session('userID'))->first();
+            return view('utilityPages.profilePage',compact('userInfo'));
+        }
+
+        if(session('userJob') == 'administrator'){
+            return redirect('dashboard');
+        }
+    }
+
+    function profileEdit(){
+        
+        if(session('userJob') == 'bilkenter'){
+            $userInfo = Patient::where('id','=', session('userID'))->first();
+            return view('utilityPages.editProfile',compact('userInfo'));
+        }
+        if(session('userJob') == 'doctor'){
+            $userInfo = Staff::where('id','=', session('userID'))->first();
+            return view('utilityPages.editProfile',compact('userInfo'));
+        }
+        if(session('userJob') == 'nurse'){
+            $userInfo = Staff::where('id','=', session('userID'))->first();
+            return view('utilityPages.editProfile',compact('userInfo'));
+        }
+        if(session('userJob') == 'secretary'){
+            $userInfo = Staff::where('id','=', session('userID'))->first();
+            return view('utilityPages.editProfile',compact('userInfo'));
+        }
+
+        if(session('userJob') == 'administrator'){
+            return redirect('dashboard');
         }
     }
 
@@ -104,12 +160,16 @@ class UserAuth extends Controller
             'bilkentID'=>'required|integer|unique:patients|unique:staff|unique:admins',
             'name'=>'required',
             'email'=>'required|email|unique:patients',
+            'date'=>'required|date_format:m/d/Y',
+            'gender'=>'required|in:Male,Female',
             'phone'=>'required',
             'password'=>'required'
         ],
         [
             'bilkentID.integer' => 'Bilkent ID needs to be an integer!',
-            'bilkentID.required' => 'Please enter a Bilkent ID or Staff ID',
+            'bilkentID.required' => 'Please enter a Bilkent ID of the patient',
+            'date.required'=>'Please enter the birthday of the patient',
+            'date.date_format'=>'Date format needs to be mm/dd/yy!',
             'password.required' => 'Password cannot be blank!',
         ]);
 
@@ -118,7 +178,9 @@ class UserAuth extends Controller
         $user->name = $req->name;
         $user->email = $req->email;
         $user->phone = $req->phone;
+        $user->gender = $req->gender;
         $user->password = Hash::make($req->password);
+        $user->birthday = Carbon::parse($req->date)->format('Y-m-d');
         $user->job = 'bilkenter';
         $save = $user->save();
 

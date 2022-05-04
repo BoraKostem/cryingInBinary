@@ -22,14 +22,14 @@
       <div class="collapse navbar-collapse" id="navbarsExample06">
         <ul class="navbar-nav ms-auto mb-2 mb-xl-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="dashboard">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Appointments</a>
           </li>
           @if($userInfo['job'] == 'administrator')
           <li class="nav-item">
-            <a class="nav-link" href="#">Manage User</a>
+            <a class="nav-link" href="register">Manage User</a>
           </li>
           @endif
           <li class="nav-item dropdown">
