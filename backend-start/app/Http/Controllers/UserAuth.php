@@ -10,56 +10,82 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAuth extends Controller
 {
-    function login(){
+    function login()
+    {
         return view('login');
     }
 
-    function register(){
+    function register()
+    {
         return view('createuser');
     }
 
-    function goAdmin(){
+    function goAdmin()
+    {
         return view('createadmin');
     }
 
-    function upload(){
-        $userInfo = Patient::where('id','=', session('userID'))->first();
-        return view('pdfupload.upload',compact('userInfo'));
+    function upload(Request $req)
+    {
+        $userInfo = Patient::where('id', '=', session('userID'))->first();
+        $healths = Patient::all();
+        return view('pdfupload.upload', compact('userInfo', 'healths'));
     }
 
-    function dashboard(){
-        if(session('userJob') == 'administrator'){
-            $userInfo = Admin::where('id','=', session('userID'))->first();
-            return view('roleMenus.admin',compact('userInfo'));
+    function search(Request $req)
+    {
+        $userInfo = Patient::where('id', '=', session('userID'))->first();
+        $search_text = $req->searchInput;
+        $searchByID = Patient::where('bilkentID', 'LIKE', '%' . $search_text . '%')->get();
+        $searchByName = Patient::where('name', 'LIKE', '%' . $search_text . '%')->get();
+        if (sizeof($searchByID) > 0) {
+            $healths = $searchByID;
+        } else if (sizeof($searchByName) > 0) {
+            $healths = $searchByName;
+        } else {
+            $healths = Patient::all();
         }
-        if(session('userJob') == 'bilkenter'){
-            $userInfo = Patient::where('id','=', session('userID'))->first();
-            return view('roleMenus.patientMain',compact('userInfo'));
+
+        return view('pdfupload.upload', compact('userInfo', 'healths'));
+    }
+
+    function dashboard()
+    {
+        if (session('userJob') == 'administrator') {
+            $userInfo = Admin::where('id', '=', session('userID'))->first();
+            return view('roleMenus.admin', compact('userInfo'));
         }
-        if(session('userJob') == 'doctor'){
-            $userInfo = Staff::where('id','=', session('userID'))->first();
-            return view('roleMenus.doctor',compact('userInfo'));
+        if (session('userJob') == 'bilkenter') {
+            $userInfo = Patient::where('id', '=', session('userID'))->first();
+            return view('roleMenus.patientMain', compact('userInfo'));
         }
-        if(session('userJob') == 'nurse'){
-            $userInfo = Staff::where('id','=', session('userID'))->first();
-            return view('roleMenus.nurse',compact('userInfo'));
+        if (session('userJob') == 'doctor') {
+            $userInfo = Staff::where('id', '=', session('userID'))->first();
+            return view('roleMenus.doctor', compact('userInfo'));
         }
-        if(session('userJob') == 'secretary'){
-            $userInfo = Staff::where('id','=', session('userID'))->first();
-            return view('roleMenus.secretary',compact('userInfo'));
+        if (session('userJob') == 'nurse') {
+            $userInfo = Staff::where('id', '=', session('userID'))->first();
+            return view('roleMenus.nurse', compact('userInfo'));
+        }
+        if (session('userJob') == 'secretary') {
+            $userInfo = Staff::where('id', '=', session('userID'))->first();
+            return view('roleMenus.secretary', compact('userInfo'));
         }
     }
 
-    function userLogin(Request $req){
-        $req->validate([
-            'bilkentID'=>'required|integer',
-            'password'=>'required'
-        ],
-        [
-            'bilkentID.integer' => 'Bilkent ID needs to be an integer!',
-            'bilkentID.required' => 'Please enter your Bilkent ID or Staff ID',
-            'password.required' => 'Password cannot be blank!',
-        ]);
+    function userLogin(Request $req)
+    {
+        $req->validate(
+            [
+                'bilkentID' => 'required|integer',
+                'password' => 'required'
+            ],
+            [
+                'bilkentID.integer' => 'Bilkent ID needs to be an integer!',
+                'bilkentID.required' => 'Please enter your Bilkent ID or Staff ID',
+                'password.required' => 'Password cannot be blank!',
+            ]
+        );
 
         $loginInfo = Patient::where('bilkentID', '=', $req->bilkentID)->first(); //Database querry to fetch the row with the entered bilkentID for patients table
         if (!$loginInfo) {
@@ -67,56 +93,58 @@ class UserAuth extends Controller
             if (!$loginInfo) {
                 $loginInfo = Admin::where('bilkentID', '=', $req->bilkentID)->first(); //Database querry to fetch the row with the entered bilkentID for admin table
                 if (!$loginInfo) {
-                    return back()->with('fail','Your Bilkent ID or Password is incorrect!');
+                    return back()->with('fail', 'Your Bilkent ID or Password is incorrect!');
                 } else {
                     //Password Check
                     if (Hash::check($req->password, $loginInfo->password)) {
                         $req->session()->put('userID', $loginInfo->id);
-                        $req->session()->put('userJob',$loginInfo->job);
+                        $req->session()->put('userJob', $loginInfo->job);
                         return redirect('dashboard');
                     } else {
                         //Password Incorrect
-                        return back()->with('fail','Your Bilkent ID or Password is incorrect!');
-                    } 
+                        return back()->with('fail', 'Your Bilkent ID or Password is incorrect!');
+                    }
                 }
             } else {
                 //Password Check
                 if (Hash::check($req->password, $loginInfo->password)) {
                     $req->session()->put('userID', $loginInfo->id);
-                    $req->session()->put('userJob',$loginInfo->job);
+                    $req->session()->put('userJob', $loginInfo->job);
                     return redirect('dashboard');
                 } else {
                     //Password Incorrect
-                    return back()->with('fail','Your Bilkent ID or Password is incorrect!');
-                } 
+                    return back()->with('fail', 'Your Bilkent ID or Password is incorrect!');
+                }
             }
         } else {
             //Password Check
             if (Hash::check($req->password, $loginInfo->password)) {
                 $req->session()->put('userID', $loginInfo->id);
-                $req->session()->put('userJob',$loginInfo->job);
+                $req->session()->put('userJob', $loginInfo->job);
                 return redirect('dashboard');
             } else {
                 //Password Incorrect
-                return back()->with('fail','Your Bilkent ID or Password is incorrect!');
-            } 
+                return back()->with('fail', 'Your Bilkent ID or Password is incorrect!');
+            }
         }
-        
     }
 
-    function createUser(Request $req){
-        $req->validate([
-            'bilkentID'=>'required|integer|unique:patients|unique:staff|unique:admins',
-            'name'=>'required',
-            'email'=>'required|email|unique:patients',
-            'phone'=>'required',
-            'password'=>'required'
-        ],
-        [
-            'bilkentID.integer' => 'Bilkent ID needs to be an integer!',
-            'bilkentID.required' => 'Please enter a Bilkent ID or Staff ID',
-            'password.required' => 'Password cannot be blank!',
-        ]);
+    function createUser(Request $req)
+    {
+        $req->validate(
+            [
+                'bilkentID' => 'required|integer|unique:patients|unique:staff|unique:admins',
+                'name' => 'required',
+                'email' => 'required|email|unique:patients',
+                'phone' => 'required',
+                'password' => 'required'
+            ],
+            [
+                'bilkentID.integer' => 'Bilkent ID needs to be an integer!',
+                'bilkentID.required' => 'Please enter a Bilkent ID or Staff ID',
+                'password.required' => 'Password cannot be blank!',
+            ]
+        );
 
         $user = new Patient;
         $user->bilkentID = $req->bilkentID;
@@ -127,28 +155,30 @@ class UserAuth extends Controller
         $user->job = 'bilkenter';
         $save = $user->save();
 
-        if($save){
-            return back()->with('success','New Patient has been successfuly added to database');
-        }
-        else{
-            return back()->with('fail','Something went wrong please try again later.');
+        if ($save) {
+            return back()->with('success', 'New Patient has been successfuly added to database');
+        } else {
+            return back()->with('fail', 'Something went wrong please try again later.');
         }
     }
 
-    function createStaff(Request $req){
-        $req->validate([
-            'bilkentID'=>'required|integer|unique:patients|unique:staff|unique:admins',
-            'name'=>'required',
-            'email'=>'required|email|unique:staff',
-            'phone'=>'required',
-            'job'=>'required',
-            'location'=>'required',
-            'password'=>'required'
-        ],
-        [
-            'bilkentID.required' => 'Please enter a Bilkent ID or Staff ID',
-            'password.required' => 'Password cannot be blank!',
-        ]);
+    function createStaff(Request $req)
+    {
+        $req->validate(
+            [
+                'bilkentID' => 'required|integer|unique:patients|unique:staff|unique:admins',
+                'name' => 'required',
+                'email' => 'required|email|unique:staff',
+                'phone' => 'required',
+                'job' => 'required',
+                'location' => 'required',
+                'password' => 'required'
+            ],
+            [
+                'bilkentID.required' => 'Please enter a Bilkent ID or Staff ID',
+                'password.required' => 'Password cannot be blank!',
+            ]
+        );
 
         $user = new Staff;
         $user->bilkentID = $req->bilkentID;
@@ -160,38 +190,39 @@ class UserAuth extends Controller
         $user->password = Hash::make($req->password);
         $save = $user->save();
 
-        if($save){
-            return back()->with('success','New Staff Member  has been successfuly added to database');
-        }
-        else{
-            return back()->with('fail','Something went wrong please try again later.');
+        if ($save) {
+            return back()->with('success', 'New Staff Member  has been successfuly added to database');
+        } else {
+            return back()->with('fail', 'Something went wrong please try again later.');
         }
     }
 
-    function createAdmin(Request $request){
-        
+    function createAdmin(Request $request)
+    {
+
         //Validate requests
         $request->validate([
-            'bilkentID'=>'required|unique:patients|unique:staff|unique:admins',
-            'password'=>'required|min:5|max:12'
+            'bilkentID' => 'required|unique:patients|unique:staff|unique:admins',
+            'password' => 'required|min:5|max:12'
         ]);
 
-         //Insert data into database
-         $admin = new Admin;
-         $admin->bilkentID = $request->bilkentID;
-         $admin->password = Hash::make($request->password);
-         $admin->job = 'administrator';
-         $save = $admin->save();
+        //Insert data into database
+        $admin = new Admin;
+        $admin->bilkentID = $request->bilkentID;
+        $admin->password = Hash::make($request->password);
+        $admin->job = 'administrator';
+        $save = $admin->save();
 
-         if($save){
-            return back()->with('success','New Admin has been successfuly added to database');
-         }else{
-             return back()->with('fail','Something went wrong, try again later');
-         }
+        if ($save) {
+            return back()->with('success', 'New Admin has been successfuly added to database');
+        } else {
+            return back()->with('fail', 'Something went wrong, try again later');
+        }
     }
 
-    function logout(){
-        if(session()->has('userID')){
+    function logout()
+    {
+        if (session()->has('userID')) {
             session()->pull('userID');
             return redirect('login');
         }

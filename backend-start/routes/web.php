@@ -36,7 +36,9 @@ Route::group(['middleware'=>['authCheck']], function(){
     
     Route::get('upload', [UserAuth::class,'upload']);
     
-    Route::post('send-pdf', [PdfUpload::class, 'pdfUpload']);
+    Route::post('send-pdf', [PdfUpload::class, 'pdfUpload'])->name('send-pdf');
+
+    Route::post('search', [UserAuth::class,'search']);
 });
 
 //Health Center Login
