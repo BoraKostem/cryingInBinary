@@ -3,6 +3,13 @@
 @section('content')
 
 
-<h1>Patient Main</h1>
+<div class="container">
+    <div class="mt-5">
+        @include('roleMenus.menuComponents.newsCard',['userInfo'=> $userInfo])
+    </div>
+    
+</div>
+    
+
 
 @endsection

@@ -27,6 +27,11 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Appointments</a>
           </li>
+          @if($userInfo['job'] == 'administrator')
+          <li class="nav-item">
+            <a class="nav-link" href="#">Manage User</a>
+          </li>
+          @endif
           <li class="nav-item dropdown">
             <a class="nav-link" href="#">Health History</a></li>
           </li>

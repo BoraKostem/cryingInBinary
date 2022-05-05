@@ -26,6 +26,7 @@ return new class extends Migration
             $table->double('weight')->nullable();
             $table->string('blood_type')->nullable();
             $table->string('pp_path')->nullable()->defult('public/image/Profile-720.png');
+            $table->string('job'); //Just to identify patients for the auth
             $table->rememberToken();
             $table->timestamps();
         });

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
-            $table->integer('staffID')->unique();
+            $table->string('bilkentID')->unique();
             $table->string('name');
             $table->string('email');
             $table->string('phone');

@@ -95,52 +95,68 @@
         <div class="col-md-3">
             <div class="profile-sidebar" id="sidebar">
                 <div class="profile-userpic">
-					<img src="{{URL::asset('/image/Profile-720.png')}}" class="img-responsive" alt="">
-				</div>
+                  <!--//Control for profile picture path -->
+                  @if(!isset($userInfo['pp_path']))
+                    <img src="{{URL::asset('/image/Profile-720.png')}}" class="img-responsive" alt="">
+                  @else
+                    <img src="{{URL::asset('')}}" class="img-responsive" alt="">
+                  @endif      
+				        </div>
 
                 <div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						{{$userInfo['name']}}
-					</div>
-					<div class="profile-usertitle-job">
-						{{$userInfo['bilkentID']}}
-					</div>
-				</div>
+            @if($userInfo['job'] != 'administrator')
+						  {{$userInfo['name']}}
+            @else
+              <strong>ADMIN</strong>
+            @endif
 
+					</div>
+            <div class="profile-usertitle-job">
+              {{$userInfo['bilkentID']}}
+            </div>
+				  </div>
+
+              @if($userInfo['job'] != 'administrator')
                 <div class="profile-userbuttons">
-					<button type="button" class="btn btn-custom btn-sm">Profile</button>
-				</div>
-                <div class="information-texts">
-                  @if(isset($userInfo['hescode']))
-                    COVID-19 Status: Healthy
-                  @else
-                  COVID-19 Status: HES Code Not Found!
-                  @endif
-                </div>
+					          <button type="button" class="btn btn-custom btn-sm">Profile</button>
+				        </div>
+              @endif
 
-                <div class="information-texts">
-                  @if(isset($userInfo['birthday']))
-                  Age: 21
-                  @else
-                  Age: -
-                  @endif
-                </div>
+              @if($userInfo['job'] != 'administrator')
+                  <div class="information-texts">
+                    @if(isset($userInfo['hescode']))
+                    COVID-19 Status: <p class="text-success" style="display:inline">Healthy!</p>
+                    @else
+                    COVID-19 Status: <p class="text-secondary" style="display:inline">Not Found</p> 
+                    @endif
+                  </div>
+                  @if($userInfo['job'] == 'bilkenter')
+                      <div class="information-texts">
+                        @if(isset($userInfo['birthday']))
+                        Age: --Add Age Later--
+                        @else
+                        Age: -
+                        @endif
+                      </div>
 
-                <div class="information-texts">
-                  @if(isset($userInfo['height']))
-                  Height: 1.78
-                  @else
-                  Height: -
-                  @endif
-                </div>
+                      <div class="information-texts">
+                        @if(isset($userInfo['height']))
+                        Height: {{$userInfo['height']}}
+                        @else
+                        Height: -
+                        @endif
+                      </div>
 
-                <div class="information-texts">
-                  @if(isset($userInfo['weight']))
-                  Weight: 90
-                  @else
-                  Weight: -
+                      <div class="information-texts">
+                        @if(isset($userInfo['weight']))
+                        Weight: {{$userInfo['weight']}}
+                        @else
+                        Weight: -
+                        @endif
+                      </div>
                   @endif
-                </div>
+              @endif
             </div>
         </div>
     </div>

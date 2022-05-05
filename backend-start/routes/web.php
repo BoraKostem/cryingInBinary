@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\PdfUpload;
 use App\Http\Controllers\UserAuth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,15 +26,17 @@ Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout');
 //User Login
 
 Route::post('user',[UserAuth::class,'userLogin']);
-
+Route::post('chngnws',[MainController::class,'changeNews']);
 
 
 Route::group(['middleware'=>['authCheck']], function(){
     Route::get('login',[UserAuth::class,'login'])->name('auth.login');
     
     Route::get('dashboard',[UserAuth::class,'dashboard']); //Dashboard of the patient
-
-
+    
+    Route::get('upload', [UserAuth::class,'upload']);
+    
+    Route::post('send-pdf', [PdfUpload::class, 'pdfUpload']);
 });
 
 //Health Center Login
@@ -54,3 +58,4 @@ Route::post('registerUser',[UserAuth::class,'createUser']);
 //Dont forget to delete createAdmin files
 Route::get('admincreate',[UserAuth::class,'goAdmin'])->name('auth.admin');
 Route::post('adminC',[UserAuth::class,'createAdmin']);
+
