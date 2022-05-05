@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('speciality')->nullable();
             $table->string('title')->nullable();
             $table->string('location'); //East Campus or Main Campus
-            $table->string('hescode')->defult('0000');
-            $table->string('pp_path')->defult('public/image/Profile-720.png'); //Profile Photo Path
+            $table->string('hescode')->nullable();
+            $table->string('pp_path')->nullable(); //Profile Photo Path
             $table->timestamps();
         });
     }

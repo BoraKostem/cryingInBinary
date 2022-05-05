@@ -21,6 +21,7 @@
             <p>{{$userInfo['name']}}</p>
         </div>
     </div>
+    @if($userInfo['job'] == 'bilkenter')
     <div class="row mt-1">
         <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
             <label>Gender</label>
@@ -37,6 +38,7 @@
             <p>{{$userInfo['birthday']}}</p>
         </div>
     </div>
+    @endif
     <div class="row mt-1">
         <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
             <label>Email</label>
@@ -53,6 +55,7 @@
             <p>{{$userInfo['phone']}}</p>
         </div>
     </div>
+    @if($userInfo['job'] == 'bilkenter')
     <div class="row mt-1">
         <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
             <label>Blood Type</label>
@@ -65,6 +68,7 @@
             @endif
         </div>
     </div>
+    
     <div class="row mt-1">
         <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
             <label>Height</label>
@@ -89,6 +93,41 @@
             @endif
         </div>
     </div>
+    @endif
+    @if($userInfo['job'] == 'doctor' || $userInfo['job'] == 'nurse' || $userInfo['job'] == 'secretary')
+    <div class="row mt-1">
+        <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
+            <label>Profession</label>
+        </div>
+        <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
+            <p>{{$userInfo['job']}}</p>
+        </div>
+    </div>
+    @if(isset($userInfo['speciality']))
+    <div class="row mt-1">
+        <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
+            <label>Speciality</label>
+        </div>
+        <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
+            <p>{{$userInfo['speciality']}}</p>
+        </div>
+    </div>
+    @endif
+    <div class="row mt-1">
+        <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
+            <label>Location</label>
+        </div>
+        <div class="col-md-5" style="border-bottom:1px solid #aeaeae;">
+            @if($userInfo['location'] == 'main')
+            <p>Main Campus</p>
+            @else
+            <p>East Campus</p>
+            @endif
+        </div>
+    </div>
+
+
+    @endif
 </div>
 
 

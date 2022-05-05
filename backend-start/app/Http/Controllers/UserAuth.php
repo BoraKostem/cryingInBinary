@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAuth extends Controller
 {
+    function no404(){
+        if(session('userID') !== null){
+            return redirect(route('home'));
+        }
+        else{
+            return redirect('/login');
+        }
+        
+    }
     function login(){
         return view('login');
     }
@@ -20,6 +29,16 @@ class UserAuth extends Controller
         if(session('userJob') == 'administrator'){
             $userInfo = Admin::where('id','=', session('userID'))->first();
             return view('createuser',compact('userInfo'));
+        }
+        else{
+            return redirect(route('home'));
+        }
+    }
+
+    function registerStaff(){
+        if(session('userJob') == 'administrator'){
+            $userInfo = Admin::where('id','=', session('userID'))->first();
+            return view('createstaff',compact('userInfo'));
         }
         else{
             return redirect(route('home'));
@@ -198,12 +217,13 @@ class UserAuth extends Controller
             'name'=>'required',
             'email'=>'required|email|unique:staff',
             'phone'=>'required',
-            'job'=>'required',
-            'location'=>'required',
+            'job'=>'required|in:doctor,nurse,secretary',
+            'location'=>'required|in:main,east',
             'password'=>'required'
         ],
         [
-            'bilkentID.required' => 'Please enter a Bilkent ID or Staff ID',
+            'bilkentID.integer' => 'Bilkent ID needs to be an integer!',
+            'bilkentID.required' => 'Please enter a Bilkent ID of the staff',
             'password.required' => 'Password cannot be blank!',
         ]);
 
@@ -214,6 +234,8 @@ class UserAuth extends Controller
         $user->phone = $req->phone;
         $user->job = $req->job;
         $user->location = $req->location;
+        $user->speciality = $req->speciality;
+        $user->title = $req->title;
         $user->password = Hash::make($req->password);
         $save = $user->save();
 

@@ -9,7 +9,10 @@
     }
 </style>
 
-
+@php
+  $healthText = DB::table('data')->where('dataType', 'healthNews')->value('value');
+  $lastEdited = DB::table('data')->where('dataType', 'healthNews')->value('lastEdited');         
+@endphp
 
 
 
@@ -31,10 +34,7 @@
                     <h5 class="card-title">Health Center News</h5>
                 </div>
                 <div class="card-body">
-                    @php
-                     $healthText = DB::table('data')->where('dataType', 'healthNews')->value('value');
-                     $lastEdited = DB::table('data')->where('dataType', 'healthNews')->value('lastEdited');         
-                    @endphp
+                    
                   <p class="lead" style="white-space: pre-line"> {{$healthText}} </p>
                 </div>
                 <div class="card-footer text-muted">
@@ -62,7 +62,7 @@
             
             <div class="form-group">
                 <label for="messageText" class="form-control-label">Change News:</label>
-                <textarea class="form-control" name="messageText"></textarea>
+                <textarea class="form-control" name="messageText"> {{$healthText}} </textarea>
             </div>
             
         </div>

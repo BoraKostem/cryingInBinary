@@ -94,6 +94,9 @@
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
                       @if($userInfo['job'] != 'administrator')
+                        @if(isset($userInfo['title']))
+                        {{$userInfo['title']}} <br>
+                        @endif
                         {{$userInfo['name']}}
                       @else
                         <strong>ADMIN</strong>
@@ -148,6 +151,20 @@
                             Weight: -
                             @endif
                           </div>
+                      @endif
+                    @endif
+                    @if(!Request::is('profile'))
+                      @if($userInfo['job'] == 'doctor' || $userInfo['job'] == 'secretary' || $userInfo['job'] == 'nurse')
+                          <div class="information-texts mt-2">
+                            Profession: {{Str::ucfirst($userInfo['job'])  }}
+                          </div>
+                          @if(isset($userInfo['speciality']))
+                          <div class="information-texts mt-2">
+                            
+                            Spec: {{Str::ucfirst($userInfo['speciality']) }}
+                            
+                          </div>
+                          @endif
                       @endif
                     @endif
                 @endif

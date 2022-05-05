@@ -21,7 +21,7 @@
 
 
 
-
+@if($userInfo['job' == 'bilkenter']) <!-- Edit Profile Patient   -->
 <div class="container">
    <div class="row" style="margin-top:45px">
       <div class="col-md-4 col-md-offset-4">
@@ -105,5 +105,61 @@
 </div>
 
 
+@else <!-- Edit Profile Staff   -->
+<div class="container">
+   <div class="row" style="margin-top:45px">
+      <div class="col-md-4 col-md-offset-4">
+           <h4>Edit Profile</h4><hr>
+           <form action="{{route('edtPrflInfStaff')}}" method="post" enctype="multipart/form-data">
+
+           @if(Session::get('success'))
+             <div class="alert alert-success">
+                {{ Session::get('success') }}
+             </div>
+           @endif
+
+           @if(Session::get('fail'))
+             <div class="alert alert-danger">
+                {{ Session::get('fail') }}
+             </div>
+           @endif
+
+           @csrf
+               <div class="form-group">
+                 <label>Bilkent ID</label>
+                 <input type="text" class="form-control" name="bilkentID" placeholder="Enter BilkentID" value="{{$userInfo['bilkentID']}}" readonly>
+              </div>
+              <div class="form-group">
+                 <label>Name</label>
+                 <input type="text" class="form-control" name="name" placeholder="Enter full name" value="{{$userInfo['name']}}" readonly>
+              </div>
+              <div class="form-group">
+                 <label>Email</label>
+                 <input type="text" class="form-control" name="email" placeholder="Enter email address" value="{{$userInfo['email']}}">
+                 <span class="text-danger">@error('email'){{ $message }} @enderror</span>
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number" value="{{$userInfo['phone']}}">
+                <span class="text-danger">@error('phone'){{ $message }} @enderror</span>
+             </div>
+             <div class="form-group">
+                <label>HES-Code</label>
+                <input type="text" class="form-control" name="hescode" placeholder="Enter HES Code" value="{{$userInfo['hescode']}}">
+                <span class="text-danger">@error('hescode'){{ $message }} @enderror</span>
+             </div>
+             <div class="form-group">
+                <label>Change Profile Photo</label>
+                <input type="file" class="form-control" name="profilephoto" placeholder="Upload a file">
+                <span class="text-danger">@error('profilephoto'){{ $message }} @enderror</span>
+             </div>
+
+              <button type="submit" class="btn btn-block btn-primary mt-2">Save Changes</button>
+           </form>
+      </div>
+   </div>
+</div>
+
+@endif
 
 @endsection

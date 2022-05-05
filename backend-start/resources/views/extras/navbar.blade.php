@@ -12,7 +12,7 @@
 
 <nav class="navbar navbar-expand-xl navbar-dark "  aria-label="navbar" id="navbar-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{{route('home')}}">
         <img src="{{URL::asset('/image/bilkent_logo.png')}}" alt="Bilkent University Health Center" height="40" class="me-2"> Bilkent University Health Center  
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
