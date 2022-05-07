@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
 @endsection
@@ -70,7 +71,7 @@
       <div class="col-md-4 col-md-offset-4">
         <div class="form-group">
             <label>Job</label>
-            <select class="form-control" name="job">
+            <select class="form-control" name="job" id="job">
                <option selected>Please Select The Job Of The Staff</option>
                <option value="doctor">Doctor</option>
                <option value="nurse">Nurse</option>
@@ -80,7 +81,7 @@
         </div>
         <div class="form-group">
             <label>Speciality (If Exists)</label>
-            <select class="form-control" name="speciality">
+            <select class="form-control" name="speciality" id="speciality" disabled>
                <option selected>Please Select Speciality Of The Doctor</option>
                <option value="dentist">Dentist</option>
                <option value="cardiolog">Cardiolog</option>
@@ -103,5 +104,15 @@
 </div>
 
 
-
+<script>
+$("#job").change(function () {
+   $('#speciality').prop('disabled', true);
+   if($(this).val() == 'doctor'){
+      $('#speciality').prop('disabled', false);
+   }
+   else{
+      $('#speciality').prop('selectedIndex',0);
+   }
+ });
+</script>
 @endsection

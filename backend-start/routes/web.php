@@ -24,15 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 //Login
 
+
+
 Route::post('user',[UserAuth::class,'userLogin']);
-
-
 
 Route::group(['middleware'=>['authCheck']], function(){
     Route::get('login',[UserAuth::class,'login'])->name('auth.login');
-    
-    
-    
+ 
     Route::get('auth/logout',[UserAuth::class,'logout'])->name('auth.logout'); //Logout
 
     //Pages
@@ -43,31 +41,18 @@ Route::group(['middleware'=>['authCheck']], function(){
     Route::post('edtPrflStaff', [MainController::class,'editProfileStaff'])->name('edtPrflInfStaff'); //Post method for edditing profile of staff
 
     //Admin Spesific Functions
-
+    Route::get('manage',[UserAuth::class, 'manageUser'])->name('manageUser'); //User management page
+    Route::post('delPatient',[UserAuth::class, 'deletePatient'])->name('delPatient'); //Delete Patient Model
+    Route::post('delStaff',[UserAuth::class, 'deleteStaff'])->name('delStaff'); //Delete Staff Model
     Route::get('register',[UserAuth::class, 'register'])->name('auth.register');  //Route will change
     Route::get('register/staff',[UserAuth::class, 'registerStaff'])->name('auth.register.staff');  //Route will change
     Route::post('registerUser',[UserAuth::class,'createUser']);
     Route::post('registerStaff',[UserAuth::class,'createStaff'])->name('register.staff');;
     Route::post('chngnws',[MainController::class,'changeNews']); //Admin Change News   -- todo protect for admin
+    Route::get('adminChangePass',[UserAuth::class,'goAdmin'])->name('auth.admin'); // Admin Password Change
+    Route::post('adminC',[UserAuth::class,'changeAdminPass']);
 });
 
 Route::any('{query}',[UserAuth::class,'no404'])
     ->where('query', '.*');
-//Health Center Login
 
-
-
-
-//Admin Login
-
-
-
-
-
-//Admin Spesific Functions
-
-
-
-//Dont forget to delete createAdmin files
-Route::get('admincreate',[UserAuth::class,'goAdmin'])->name('auth.admin');
-Route::post('adminC',[UserAuth::class,'createAdmin']);
