@@ -47,7 +47,13 @@ class UserAuth extends Controller
     }
 
     function goAdmin(){
-        return view('createadmin');
+        if(session('userJob') == 'administrator'){
+            $userInfo = Admin::where('id','=', session('userID'))->first();
+            return view('adminpasschange',compact('userInfo'));
+        }
+        else{
+            return redirect(route('home'));
+        }
     }
 
     function manageUser(){
@@ -157,7 +163,13 @@ class UserAuth extends Controller
                     if (Hash::check($req->password, $loginInfo->password)) {
                         $req->session()->put('userID', $loginInfo->id);
                         $req->session()->put('userJob',$loginInfo->job);
-                        return redirect('dashboard');
+
+                        if(Hash::check('true', $loginInfo->firstLogin)){
+                            return redirect(route('auth.admin'))->with('fail','You need to change your default password!');;
+                        }
+                        else{
+                            return redirect('dashboard');
+                        }
                     } else {
                         //Password Incorrect
                         return back()->with('fail','Your Bilkent ID or Password is incorrect!');
@@ -261,26 +273,30 @@ class UserAuth extends Controller
         }
     }
 
-    function createAdmin(Request $request){
-        
+    function changeAdminPass(Request $request){
         //Validate requests
         $request->validate([
-            'bilkentID'=>'required|unique:patients|unique:staff|unique:admins',
-            'password'=>'required|min:5|max:12'
+            'oldpassword'=>'required',
+            'newpassword'=>'required|min:5|max:12'
         ]);
 
          //Insert data into database
-         $admin = new Admin;
-         $admin->bilkentID = $request->bilkentID;
-         $admin->password = Hash::make($request->password);
-         $admin->job = 'administrator';
-         $save = $admin->save();
-
-         if($save){
-            return back()->with('success','New Admin has been successfuly added to database');
-         }else{
-             return back()->with('fail','Something went wrong, try again later');
+         $admin = Admin::where('id','=', session('userID'))->first();
+         $adminEdit = Admin::where('id','=', session('userID'));
+         if(Hash::check($request->oldpassword, $admin->password)){
+            if(!Hash::check($request->newpassword, $admin->password)){
+                $adminEdit->update(['password'=>Hash::make($request->newpassword)]);
+                $adminEdit->update(['firstLogin'=>Hash::make('false')]);
+                return back()->with('success','Your password changed successfully');
+            }
+            else{
+                return back()->with('fail','Your old password cannot be same with the new password');
+            }
          }
+         else{
+            return back()->with('fail','Your current password is incorrect');
+         }
+         
     }
 
     function logout(){

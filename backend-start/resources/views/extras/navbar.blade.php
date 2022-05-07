@@ -39,6 +39,10 @@
           <li class="nav-item">
             <a class="nav-link me-2" href="{{route('user.profile.edit')}}">Settings</a>
           </li>
+          @else
+          <li class="nav-item">
+            <a class="nav-link me-1" href="{{route('auth.admin')}}">Change Password</a>
+          </li>
           @endif
         </ul>
         

@@ -30,7 +30,29 @@
     background-color: #003366 !important;
     color: #fff;
     }
+
+    .table-striped>tbody>tr:nth-child(odd)>td, 
+    .table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #ebf3f6 ; // Table stripped background
+ }
+
+
 </style>
+
+<!--  To change color of the page buttons
+
+ .pagination .page-item.active .page-link { 
+     background-color: #003366; }
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-item.active .page-link:focus {
+background-color: #003366;
+}
+
+.pagination .page-item.active .page-link:hover {
+background-color: #003366;
+}
+
+-->
 
 <div class="container-fluid">
     <div class="mt-5">
