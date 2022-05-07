@@ -110,10 +110,6 @@ class MainController extends Controller{
         else{
             return back()->with('fail','You need to change a value to update.');
         }
-
-
-
-
     }
 
 }

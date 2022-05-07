@@ -21,6 +21,7 @@ class UserAuth extends Controller
         }
         
     }
+
     function login(){
         return view('login');
     }
@@ -47,6 +48,19 @@ class UserAuth extends Controller
 
     function goAdmin(){
         return view('createadmin');
+    }
+
+    function manageUser(){
+        if(session('userJob') == 'administrator'){
+            $userInfo = Admin::where('id','=', session('userID'))->first();
+            $patients = Patient::all();
+            $staffList = Staff::all();
+            return view('manageuser',compact('userInfo', 'patients', 'staffList'));
+        }
+        else{
+            return redirect(route('home'));
+        }
+        
     }
 
     function dashboard(){
@@ -274,5 +288,16 @@ class UserAuth extends Controller
             session()->pull('userID');
             return redirect('login');
         }
+    }
+
+    //Manage User Post Request Handlers
+    function deletePatient(Request $req){
+        Patient::where('bilkentID','=', $req->bilkentID)->delete();
+        return back();
+    }
+
+    function deleteStaff(Request $req){
+        Staff::where('bilkentID','=', $req->bilkentID)->delete();
+        return back();
     }
 }

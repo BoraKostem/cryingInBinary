@@ -29,7 +29,7 @@
           </li>
           @if($userInfo['job'] == 'administrator')
           <li class="nav-item">
-            <a class="nav-link" href="register">Manage User</a>
+            <a class="nav-link" href="{{route('manageUser')}}">Manage User</a>
           </li>
           @endif
           <li class="nav-item dropdown">

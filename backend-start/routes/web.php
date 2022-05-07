@@ -43,12 +43,15 @@ Route::group(['middleware'=>['authCheck']], function(){
     Route::post('edtPrflStaff', [MainController::class,'editProfileStaff'])->name('edtPrflInfStaff'); //Post method for edditing profile of staff
 
     //Admin Spesific Functions
-
+    Route::get('manage',[UserAuth::class, 'manageUser'])->name('manageUser'); //User management page
+    Route::post('delPatient',[UserAuth::class, 'deletePatient'])->name('delPatient'); //Delete Patient Model
+    Route::post('delStaff',[UserAuth::class, 'deleteStaff'])->name('delStaff'); //Delete Staff Model
     Route::get('register',[UserAuth::class, 'register'])->name('auth.register');  //Route will change
     Route::get('register/staff',[UserAuth::class, 'registerStaff'])->name('auth.register.staff');  //Route will change
     Route::post('registerUser',[UserAuth::class,'createUser']);
     Route::post('registerStaff',[UserAuth::class,'createStaff'])->name('register.staff');;
     Route::post('chngnws',[MainController::class,'changeNews']); //Admin Change News   -- todo protect for admin
+
 });
 
 Route::any('{query}',[UserAuth::class,'no404'])
