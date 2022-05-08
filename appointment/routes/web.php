@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Doctorcontroller;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FrontendController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,13 +15,19 @@ use App\Http\Controllers\AppointmentController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/', [App\Http\Controllers\FrontendController::class, 'index']);
+
+Route::get('/new-appointment/{doctorId}/{date}', 'App\Http\Controllers\FrontendController@show')
+->name('create.appointment');
+
+Route::post('/book/appointment','App\Http\Controllers\FrontendController@store')->name('booking.appointment')
+->middleware('auth');
+
+Route::get('/my-booking','App\Http\Controllers\FrontendController@myBookings')->name('my.booking')->middleware('auth');
+
+
+Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');
 
 
 
