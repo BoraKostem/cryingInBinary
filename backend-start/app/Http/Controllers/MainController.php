@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\Staff;
 use Carbon\Carbon;
+use App\Models\Tests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\File;
 class MainController extends Controller{
     
     function changeNews(Request $req){
+        date_default_timezone_set('Turkey');
         $req->validate([
             'messageText'=>'required'
         ],
@@ -76,6 +78,7 @@ class MainController extends Controller{
 
 
     function editProfileStaff(Request $req){
+        date_default_timezone_set('Turkey');
         $userr = Staff::where('id','=', session('userID'))->first();
         $req->validate([
             'email'=>'required|email|unique:patients,email,'.$userr->id,
@@ -111,5 +114,32 @@ class MainController extends Controller{
             return back()->with('fail','You need to change a value to update.');
         }
     }
+
+    function addTest(Request $req){
+        $req->validate([
+            'doctorID'=>'required|exists:staff,bilkentID',
+            'patientID'=>'required|exists:patients,bilkentID',
+            'requestedTest'=>'required',
+        ],
+        [
+            'patientID.required' => 'Please enter petients name.',
+        ]);
+
+        $test = new Tests;
+
+        $test->doctorID = $req->doctorID;
+        $test->patientID = $req->patientID;
+        $test->requestedTest = $req->requestedTest;
+
+        $save = $test->save();
+        
+        if($save){
+            return back()->with('success','New Test Request Added Successfully');
+        }
+        else{
+            return back()->with('fail','Something went wrong please try again later.');
+        }
+    }
+
 
 }

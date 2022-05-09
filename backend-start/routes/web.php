@@ -3,7 +3,10 @@
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserAuth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Doctorcontroller;
+use App\Http\Controllers\PdfUpload;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FrontendController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +54,29 @@ Route::group(['middleware'=>['authCheck']], function(){
     Route::post('chngnws',[MainController::class,'changeNews']); //Admin Change News   -- todo protect for admin
     Route::get('adminChangePass',[UserAuth::class,'goAdmin'])->name('auth.admin'); // Admin Password Change
     Route::post('adminC',[UserAuth::class,'changeAdminPass']);
+
+    //Doctor Spesific Functions
+    Route::post('addTest', [MainController::class,'addTest'])->name('addTest');
+    Route::resource('appointment',AppointmentController::class);
+    Route::post('/appointment/check','App\Http\Controllers\AppointmentController@check')->name('appointment.check');
+    Route::post('/appointment/update','App\Http\Controllers\AppointmentController@updateTime')->name('update');
+
+    //patient
+    Route::get('/new-appointment/{doctorId?}/{date?}', 'App\Http\Controllers\FrontendController@show')
+    ->name('create.appointment');
+    
+    Route::post('/book/appointment','App\Http\Controllers\FrontendController@store')->name('booking.appointment');
+
+    Route::get('/my-booking','App\Http\Controllers\FrontendController@myBookings')->name('my.booking');
+    Route::post('/accept','App\Http\Controllers\FrontendController@acceptPatient')->name('accept');
+
+    //Health History Routes
+    Route::get('upload/{searched?}', [UserAuth::class,'upload'])->name('upload');
+    Route::post('send-pdf', [PdfUpload::class, 'pdfUpload'])->name('send-pdf');
+    Route::post('send-pdf1', [PdfUpload::class, 'pdfUploadNurse'])->name('send-pdf1');
+    Route::post('search', [UserAuth::class,'search'])->name('search');
+    Route::get('healthHistory/{users?}', [UserAuth::class,'healthHistory'])->name('healthHistory/{users?}');
+
 });
 
 Route::any('{query}',[UserAuth::class,'no404'])
