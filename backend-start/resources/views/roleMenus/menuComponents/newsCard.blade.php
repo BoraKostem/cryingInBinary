@@ -29,6 +29,13 @@
             </div> 
             @enderror
 
+                       
+            @if($userInfo->job == 'doctor')
+            <div class="mb-3 d-flex flex-row-reverse">
+              <input type="button" class="btn btn-custom float-right"  data-bs-toggle="modal" data-bs-target="#reqTest" style="display:inline" value="Request Test"/>
+            </div>
+            @endif
+
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Health Center News</h5>
@@ -44,7 +51,15 @@
                     <a class="pt-3" href="#" data-bs-toggle="modal" data-bs-target="#editNews" style="display:inline">Edit News</a>
                     @endif
                 </div>
-              </div>
+                              
+            </div>
+            <div class="mt-3">
+              @error('results')
+                <div class="alert alert-danger">
+                {{ $message }}
+                </div> 
+              @enderror
+            </div>
 </div> 
 
 

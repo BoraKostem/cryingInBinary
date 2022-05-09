@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Time;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\Staff;
+use App\Models\Tests;
 use App\Models\Admin;
+use App\Models\Booking;
+use App\Models\Appointment;
 use Carbon\Carbon;
+use App\Models\HealthHistory;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserAuth extends Controller
@@ -76,15 +81,26 @@ class UserAuth extends Controller
         }
         if(session('userJob') == 'bilkenter'){
             $userInfo = Patient::where('id','=', session('userID'))->first();
-            return view('roleMenus.patientMain',compact('userInfo'));
+            $appointments = Booking::latest()->where('user_id','=',session('userID'))->get();
+            
+            if(request('date')){        //if there is input
+            $doctors = $this->findDoctorsBasedOnDate(request('date'));
+            return view('roleMenus.patientMain',compact('userInfo','appointments','doctors'));
+            }
+            $doctors = Appointment::orderBy('date','ASC')->get();
+            
+            return view('roleMenus.patientMain',compact('userInfo','appointments','doctors'));
         }
+        
         if(session('userJob') == 'doctor'){
+            $patList = Patient::all();
             $userInfo = Staff::where('id','=', session('userID'))->first();
-            return view('roleMenus.doctor',compact('userInfo'));
+            return view('roleMenus.doctor',compact('userInfo','patList'));
         }
         if(session('userJob') == 'nurse'){
+            $testList = Tests::all();
             $userInfo = Staff::where('id','=', session('userID'))->first();
-            return view('roleMenus.nurse',compact('userInfo'));
+            return view('roleMenus.nurse',compact('userInfo','testList'));
         }
         if(session('userJob') == 'secretary'){
             $userInfo = Staff::where('id','=', session('userID'))->first();
@@ -315,5 +331,90 @@ class UserAuth extends Controller
     function deleteStaff(Request $req){
         Staff::where('bilkentID','=', $req->bilkentID)->delete();
         return back();
+    }
+    public function findDoctorsBasedOnDate($date){
+
+        $doctors = Appointment::where('date','=',$date)->get();         //date coming from filter
+        return $doctors;
+    }
+
+    
+    //Health History Upload
+    function upload(Request $req, $searched=null){
+        if(session('userJob') == 'bilkenter'){
+            $userInfo = Patient::where('id', '=', session('userID'))->first();
+        }
+        elseif(session('userJob') == 'administrator'){
+            $userInfo = Admin::where('id', '=', session('userID'))->first();
+        }
+        else{
+            $userInfo = Staff::where('id', '=', session('userID'))->first();
+        }
+
+        if(session('userJob') != 'administrator' && session('userJob') != 'doctor' && session('userJob') != 'nurse'){
+            return redirect(route('home'));
+        }
+
+        $search_text = $searched;
+        $searchByID = Patient::where('bilkentID', 'LIKE', '%' . $search_text . '%')->get();
+        $searchByName = Patient::where('name', 'LIKE', '%' . $search_text . '%')->get();
+        if (sizeof($searchByID) > 0) {
+            $healths = $searchByID;
+        } else if (sizeof($searchByName) > 0) {
+            $healths = $searchByName;
+        } else {
+            $healths = Patient::all();
+        }
+        return view('pdfupload.upload', compact('userInfo', 'healths'));
+    }
+
+    //Health History Search Bar
+    function search(Request $req){
+        $search_text = $req->searchInput;
+        return redirect("upload/$search_text");
+    }
+
+    function healthHistory(Request $req, $user=null)
+    {   
+        if(session('userJob') == 'bilkenter'){
+            $userInfo = Patient::where('id', '=', session('userID'))->first();
+        }
+        elseif(session('userJob') == 'administrator'){
+            $userInfo = Admin::where('id', '=', session('userID'))->first();
+        }
+        else{
+            $userInfo = Staff::where('id', '=', session('userID'))->first();
+        }
+
+
+        
+        if($user == null)
+        {
+            if(session('userJob') == 'administrator' || session('userJob') == 'doctor' || session('userJob') == 'nurse'){
+                $patientInfo = Patient::all();
+                $historyInfo = HealthHistory::all();
+            }
+            else{
+                $patientInfo = Patient::where('bilkentID', '=', $userInfo['bilkentID'])->get();
+                $historyInfo = HealthHistory::where("bilkentID", "=", $userInfo['bilkentID'])->get();
+            }
+        }
+        else
+        {
+            if(session('userJob') == 'administrator' || session('userJob') == 'doctor' || session('userJob') == 'nurse'){
+                $patientInfo = Patient::where('bilkentID', '=', $user)->get();
+                if($patientInfo == null){
+                    $historyInfo = HealthHistory::all();
+                }
+                else{
+                    $historyInfo = HealthHistory::where("bilkentID", "=", $user)->get();
+                }
+            }
+            else{
+                $patientInfo = Patient::where('bilkentID', '=', $userInfo['bilkentID'])->get();
+                $historyInfo = HealthHistory::where("bilkentID", "=", $userInfo['bilkentID'])->get();
+            }
+        }
+        return view("healthHistories.healthHistory", compact('userInfo', 'patientInfo', "historyInfo",'user'));
     }
 }

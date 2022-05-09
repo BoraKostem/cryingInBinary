@@ -24,21 +24,48 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Appointments</a>
-          </li>
+          @if($userInfo['job'] != 'nurse' && $userInfo['job'] != 'secretary')
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('my.booking')}}">Appointments</a>
+            </li>
+          @endif
           @if($userInfo['job'] == 'administrator')
           <li class="nav-item">
             <a class="nav-link" href="{{route('manageUser')}}">Manage User</a>
           </li>
           @endif
+          
+          @if($userInfo['job'] == 'administrator' || $userInfo['job'] == 'doctor' || $userInfo['job'] == 'nurse')
           <li class="nav-item dropdown">
-            <a class="nav-link" href="#">Health History</a></li>
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Health History</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown01">
+              <li><a class="dropdown-item" href="{{ route("healthHistory/{users?}") }}">View History</a></li></li>
+              <li><a class="dropdown-item" href="{{route('upload') }}">Upload</a></li>
+            </ul>
           </li>
+          @else
+            @if($userInfo['job'] != 'secretary')
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url("healthHistory/$userInfo->bilkentID") }}">Health History</a>
+              </li>
+            @endif
+          @endif
+
           @if($userInfo['job'] != 'administrator')
-          <li class="nav-item">
-            <a class="nav-link me-2" href="{{route('user.profile.edit')}}">Settings</a>
-          </li>
+              @if($userInfo['job'] == 'doctor')
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-expanded="false">Settings</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown02">
+                  <li><a class="dropdown-item" href="{{route('appointment.create')}}">Create Shift</a></li>
+                  <li><a class="dropdown-item" href="{{route('appointment.index')}}">Edit Shift</a></li>
+                  <li><a class="dropdown-item" href="{{route('user.profile.edit')}}">Edit Profile</a></li>
+                </ul>
+              </li>
+              @else
+              <li class="nav-item">
+                <a class="nav-link me-2" href="{{route('user.profile.edit')}}">Settings</a>
+              </li>
+              @endif
           @else
           <li class="nav-item">
             <a class="nav-link me-1" href="{{route('auth.admin')}}">Change Password</a>

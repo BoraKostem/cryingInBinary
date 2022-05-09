@@ -138,7 +138,7 @@
 
                           <div class="information-texts mt-2">
                             @if(isset($userInfo['height']))
-                            Height: {{$userInfo['height']}} meter
+                            Height: {{$userInfo['height']}} m
                             @else
                             Height: -
                             @endif
@@ -167,6 +167,9 @@
                           @endif
                       @endif
                     @endif
-                @endif
+                 @endif
+
             </div>
 </div>
+
+
