@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index()
     {
 
-    	if(Auth::user()->role->name=='patient'){
+    	if(Auth::session('userJob') == 'bilkenter'){
     		return view('home');
     	}
         

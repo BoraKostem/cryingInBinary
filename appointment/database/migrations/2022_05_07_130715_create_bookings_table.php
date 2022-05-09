@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('doctor_id');
             $table->string('time');
+            $table->string('date');
             $table->string('status')->default("created");
             $table->timestamps();
         });
