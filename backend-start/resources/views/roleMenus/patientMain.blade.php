@@ -40,8 +40,8 @@
 
 <div class="container">
         <!--Search doctor-->   
-        <div class="card mb-5 mt-2">
-                <div class="card-header">Book Appointment</div>
+        <div class="card mb-5 mt-4">
+                <div class="card-header"><h5>Book Appointment</h5> </div>
                 <div class="card-body">
                     <form action="{{url('/dashboard')}}" method="GET"> @csrf
                     <div class="row">
@@ -61,6 +61,7 @@
                                 <th>Date</th>
                                 <th>Name</th>
                                 <th>Expertise</th>
+                                <th>Location</th>
                                 <th>Book</th>
                             </tr>
                         </thead>
@@ -75,7 +76,14 @@
                                         {{App\Models\Staff::where('id','=', $doctor->user_id)->first()->name}}
                                     </td>
                                     <td>
-                                        {{App\Models\Staff::where('id','=', $doctor->user_id)->first()->speciality}}
+                                        {{ucfirst(App\Models\Staff::where('id','=', $doctor->user_id)->first()->speciality)}}
+                                    </td>
+                                    <td>
+                                        @if(App\Models\Staff::where('id','=', $doctor->user_id)->first()->location == 'main')
+                                        Main Campus
+                                        @else
+                                        East Campus
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{route('create.appointment',[$doctor->user_id,$doctor->date])}}"><button class="btn btn-success">Book Appointment</button></a>
