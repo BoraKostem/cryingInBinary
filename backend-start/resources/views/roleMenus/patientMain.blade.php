@@ -39,10 +39,8 @@
 
 
 <div class="container">
-        <!--Search doctor-->
-    
+        <!--Search doctor-->   
         <div class="card mb-5 mt-2">
-            <div class="card-body">
                 <div class="card-header">Book Appointment</div>
                 <div class="card-body">
                     <form action="{{url('/dashboard')}}" method="GET"> @csrf
@@ -54,14 +52,9 @@
                                 <button class="btn btn-custom" type="submit">Find Doctors</button>
                             </div>
                     </div>
-                    </form>
-                </div>
-            </div>      
+                    </form> 
     <!--display doctors-->
-            <div class="card-body">
-                <div class="card-header"> Doctors </div>
-                <div class="card-body">
-                    <table class="table table-striped">
+                    <table class="table table-striped mt-3">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -90,6 +83,10 @@
                             </tr>
                             @empty
                             <td>No doctors available today</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                             @endforelse
 
 
@@ -97,7 +94,6 @@
                     </table>
                     
                 </div>
-            </div>
             
         </div>
     </div>
