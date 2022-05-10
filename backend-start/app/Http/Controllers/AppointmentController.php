@@ -16,7 +16,7 @@ class AppointmentController extends Controller
     public function index()
     {
         $userInfo = Staff::where('id','=', session('userID'))->first();
-        $appointments = Appointment::latest()->where('user_id',session('userID'))->get();
+        $appointments = Appointment::where('user_id',session('userID'))->orderBy('date', 'asc')->get();
         
         return view('admin.appointment.index',compact('appointments','userInfo'));
     }

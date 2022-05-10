@@ -59,6 +59,7 @@
                               </form>
                             </td>
                           @endif
+
                         </tr>
                         @empty
                         <td>No appointments</td>

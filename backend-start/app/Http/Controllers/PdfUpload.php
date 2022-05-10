@@ -47,12 +47,12 @@ class PdfUpload extends Controller
             $save = $user->save();
 
             if ($save) {
-                return back()->with('success', 'Result auccessfully added to patients Health History');
+                return back()->with('success', 'Result Successfully Added to Patients Health History');
             } else {
-                return back()->with('fail', 'Something went wrong please try again later.');
+                return back()->with('fail', 'Something Went Wrong Please Try Again Later');
             }
         } else {
-            return back()->with('fail', 'You need to change a value to update.');
+            return back()->with('fail', 'You Need to Change a Value to Update');
         }
     }
 
@@ -87,12 +87,12 @@ class PdfUpload extends Controller
             $save = $user->save();
 
             if ($save) {
-                return back()->with('success', 'Result auccessfully added to patients Health History');
+                return back()->with('success', 'Result Successfully Added to Patients Health History');
             } else {
-                return back()->with('fail', 'Something went wrong please try again later.');
+                return back()->with('fail', 'Something Went Wrong Please Try Again Later');
             }
         } else {
-            return back()->with('fail', 'Something went wrong please try again later.');
+            return back()->with('fail', 'You Need to Change a Value to Update');
         }
     }
 }

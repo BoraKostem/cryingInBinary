@@ -324,14 +324,20 @@ class UserAuth extends Controller
 
     //Manage User Post Request Handlers
     function deletePatient(Request $req){
+        $id = Patient::where('bilkentID','=', $req->bilkentID)->first()->id;
         Patient::where('bilkentID','=', $req->bilkentID)->delete();
+        Booking::where('user_id', '=', $id)->delete();
         return back();
     }
 
     function deleteStaff(Request $req){
+        $id = Staff::where('bilkentID','=', $req->bilkentID)->first()->id;
         Staff::where('bilkentID','=', $req->bilkentID)->delete();
+        Booking::where('doctor_id', '=', $id)->delete();
+        Appointment::where('user_id', '=', $id)->delete();
         return back();
     }
+    
     public function findDoctorsBasedOnDate($date){
 
         $doctors = Appointment::where('date','=',$date)->get();         //date coming from filter

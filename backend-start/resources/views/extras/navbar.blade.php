@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarsExample06">
         <ul class="navbar-nav ms-auto mb-2 mb-xl-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+            <a class="nav-link" aria-current="page" href="{{route('home')}}">Home</a>
           </li>
           @if($userInfo['job'] != 'nurse' && $userInfo['job'] != 'secretary')
             <li class="nav-item">

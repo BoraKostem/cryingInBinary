@@ -68,12 +68,12 @@ class FrontendController extends Controller
     {
         date_default_timezone_set('Turkey');
         $userInfo = Patient::where('id','=', session('userID'))->first();
-        $appointments = Booking::latest()->where('user_id','=',session('userID'))->get();
+        $date = Carbon::today()->toDateString();
+        $appointments = Booking::where([['user_id','=',session('userID')]])->orderBy('date', 'asc')->orderByRaw('CONVERT(time, DOUBLE) asc')->get();
         if(session('userJob') == 'doctor'){
             $userInfo = Staff::where('id','=', session('userID'))->first();
             $date = Carbon::today()->toDateString();
             $appointments=Booking::where([['doctor_id','=',session('userID')],['date','=',$date]])->orderByRaw('CONVERT(time, DOUBLE) asc')->get();
-            
         }
         if(session('userJob') == 'administrator'){
             $userInfo = Admin::where('id','=', session('userID'))->first();

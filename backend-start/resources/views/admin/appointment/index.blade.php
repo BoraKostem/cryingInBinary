@@ -156,7 +156,7 @@
 
   @else 
   </div>
-    <h4 class="mt-4">Your Appointment Time List: {{$appointments->count()}}</h4>
+    <h4 class="mt-4">Your Schedule Lists: {{$appointments->count()}}</h4>
 
           <table class="table table-striped" style="border-top: 2px solid black">
             <thead>
@@ -173,7 +173,7 @@
               <tr>
               
                 <th scope="row"></th>
-                <td>{{$appointment->user_id}}</td>
+                <td>{{App\Models\Staff::where('id','=', $appointment->user_id)->first()->name}}</td>
                 <td>{{$appointment->date}}</td>
                 <td>
                       <form action="{{route('appointment.check')}}" method="post">@csrf
