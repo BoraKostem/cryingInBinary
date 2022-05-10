@@ -59,7 +59,7 @@ class AppointmentController extends Controller
              
          }
   
-         return redirect()->back()->with('message','Appointment created successfully for'.
+         return redirect()->back()->with('message','Shift created successfully for'.
          $request->date);
 
 

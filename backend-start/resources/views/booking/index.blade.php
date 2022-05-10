@@ -3,7 +3,19 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+      
         <div class="col-md-10 mt-4">
+          @if(Session::get('success'))
+          <div class="alert alert-success">
+            {{ Session::get('success') }}
+          </div>
+        @endif
+
+        @if(Session::get('fail'))
+            <div class="alert alert-danger">
+                {{ Session::get('fail') }}
+            </div>
+        @endif
             <div class="card">
                 <div class="card-header">Your appointments ({{$appointments->count()}})</div>
 
@@ -23,6 +35,9 @@
                           <th scope="col">Status</th>
                           @if($userInfo->job == 'doctor')
                             <th scope="col">Accept Patient</th>
+                          @endif
+                          @if($userInfo->job == 'bilkenter')
+                            <th scope="col">Cancel</th>
                           @endif
                         </tr>
                       </thead>
@@ -59,7 +74,18 @@
                               </form>
                             </td>
                           @endif
+                          @if($userInfo->job == 'bilkenter')
+                          <td>
+                            <form action="{{route('appointment.cancel')}}"  onsubmit="return confirm('Do you want to cancel this appointment?');" method="post">
+                              @csrf
+                              <input type="hidden" name="appointmentTime" value="{{$appointment->time}}">
+                              <input type="hidden" name="appointmentTimeID" value="{{$appointment->appointment_id}}">
+                              <input type="hidden" name="appointmentID" value="{{$appointment->id}}">
+                              <button class="btn btn-danger" type="submit">Cancel</button>
+                            </form>
+                          </td>
 
+                          @endif
                         </tr>
                         @empty
                         <td>No appointments</td>
@@ -69,6 +95,9 @@
                         <td>-</td>
                         <td>-</td>
                         @if($userInfo->job == 'doctor')
+                        <td>-</td>
+                        @endif
+                        @if($userInfo->job == 'bilkenter')
                         <td>-</td>
                         @endif
                         @endforelse

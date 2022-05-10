@@ -62,9 +62,8 @@ Route::group(['middleware'=>['authCheck']], function(){
     Route::post('/appointment/update','App\Http\Controllers\AppointmentController@updateTime')->name('update');
 
     //patient
-    Route::get('/new-appointment/{doctorId?}/{date?}', 'App\Http\Controllers\FrontendController@show')
-    ->name('create.appointment');
-    
+    Route::get('/new-appointment/{doctorId?}/{date?}', 'App\Http\Controllers\FrontendController@show')->name('create.appointment');
+    Route::post('cancelAppointment',[FrontendController::class,'cancelAppointment'])->name('appointment.cancel');
     Route::post('/book/appointment','App\Http\Controllers\FrontendController@store')->name('booking.appointment');
 
     Route::get('/my-booking','App\Http\Controllers\FrontendController@myBookings')->name('my.booking');

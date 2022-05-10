@@ -47,7 +47,8 @@ class FrontendController extends Controller
             'doctor_id'=> $request->doctorId,
             'time'=> $request->time,
             'date'=> $request->date,
-            'status'=>"created"
+            'status'=>"created",
+            'appointment_id'=>$request->appointmentId
         ]);
         Time::where('appointment_id',$request->appointmentId)
             ->where('time',$request->time)
@@ -90,5 +91,16 @@ class FrontendController extends Controller
         $appointmentId->update(['status'=>'Visited']);
 
         return redirect(route('my.booking'));
+    }
+
+    function cancelAppointment(Request $req){
+        $succ = Time::where('appointment_id',$req->appointmentTimeID)->where('time',$req->appointmentTime)->update(['status'=>"created"]);
+        $succ = Booking::where('id', '=', $req->appointmentID)->delete();
+        if($succ){
+            return back()->with('success','Canceled Appointment Successfully!');
+        }
+        else{
+            return back()->with('fail','Something went wrong please try again later.');
+        }
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('time');
             $table->string('date');
             $table->string('status')->default("created");
+            $table->string('appointment_id')->nullable();
             $table->timestamps();
         });
     }
