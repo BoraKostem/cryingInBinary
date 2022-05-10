@@ -7,26 +7,10 @@ Oğulcan Karakollukçu(Backend)<br>
 
 
 <h1>Backend</h1>
-Fake database for student login information // Passwords and any other sensitive information should be stored in hashed forms.<br>
-Admin, Doctor, Lab, Nurse and Student authority levels :<br>
-Students can add their own health history (Xray or MR or older medications)<br>
-Doctors can add their examinations about a student and it will show at students health history<br>
-Admin can edit the current covid cases that will display on the site<br>
-Admin can create new accounts for any other authority levels<br>
-There can only be 1 Admin<br>
-Tracking of old appointment<br>
-Health History<br>
-Create new Appointment (different categories)<br>
-Diagnovir Test  <br>
-Log login attempts <br>
-On login student information (id, name, etc) will be pulled from database and written to JSON file (frontend will use information from this file // user.json) <br>
+The app is a web application that facilitates the appointment process for Bilkenters. Users can see the available appointments in advance and make an appointment through the application. Also, the appointments created by the secretary or users can be easily followed through the application. Since the previous health examinations are recorded, it offers the patient's health history to the access of the doctors and the patient. The main purpose of this application is to provide a control mechanism for the appointment process and prevent an unnecessary occupation of the health personnel. We have added features according to the requirements of the health centre to make the application more useful and practical. Students, faculty members and health centre staff are the targets for the application. The application is approachable since it offers different features for each user.
+<br>
 
 
-
-<h1>Frontend</h1>
-Identification page (with COVID news, a need for blood donation, etc. Will be edited by admins)<br>
-Visual Calendar for appointment<br>
-Health History page with student infos<br>
 
 
 <p><h3>Making an appointments:</h3>
