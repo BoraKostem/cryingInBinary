@@ -13,8 +13,6 @@ The app is a web application that facilitates the appointment process for Bilken
 
 
 
-<p><h3>Making an appointments:</h3>
-    Appointment with specific doctor <br>
-    Possibility to upload documents for the doctor <br>
-    Seeing the doctor’s availability <br>
-    Appointment confirmation by mail and reminder 24 h before </p>
+<p><h3>Reports:</h3>
+    CryingInBinary_FinalReport.pdf.pdf <br>
+     </p>
