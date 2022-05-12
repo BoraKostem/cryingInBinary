@@ -24,6 +24,7 @@ The secretary will be able to make appointments for each patient actor, but pati
 The doctor and the patient can view the patient's health history and profile information. 
 <br>
 <h1>Pre-Examination and Tests</h1>
+After the patient comes to his appointment, the pre-examination information such as blood pressure and fever measurement will be added to the patient's health history by the nurse. Later, the doctor can request more tests when necessary, and the information obtained as a result of the test can be added to the patient's health history by the nurse or doctor. 
 <br>
 <h1>Notifications</h1>
 An automatic email will be sent for a booking and upcoming appointments.
