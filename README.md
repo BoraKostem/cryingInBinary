@@ -14,5 +14,5 @@ The app is a web application that facilitates the appointment process for Bilken
 
 
 <p><h3>Reports:</h3>
-    CryingInBinary_FinalReport.pdf.pdf <br>
+    (CryingInBinary_FinalReport.pdf.pdf) <br>
      </p>
