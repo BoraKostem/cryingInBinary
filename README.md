@@ -1,7 +1,7 @@
 # CryingInBinary<br>
 <h2>Contributors:</h2>
 Alper Kandemir(Booking system and frontend)<br>
-Bora Fenari Köstem(Login, actor, health record system. UI design and frontend)<br>
+Bora Fenari Köstem(Login, actor, health record systems. UI design and frontend)<br>
 Oğulcan Karakollukçu(Health record upload system and frontend)<br>
 
 
